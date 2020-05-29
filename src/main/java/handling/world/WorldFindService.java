@@ -45,13 +45,13 @@ public class WorldFindService {
             lock.writeLock().unlock();
         }
         if (channel == -10) {
-            System.out.println("玩家连接 - 角色ID: " + chrId + " 名字: " + chrName + " 进入商城");
+            log.info("玩家连接 - 角色ID: " + chrId + " 名字: " + chrName + " 进入商城");
         } else if (channel == -20) {
-            System.out.println("玩家连接 - 角色ID: " + chrId + " 名字: " + chrName + " 进入拍卖");
+            log.info("玩家连接 - 角色ID: " + chrId + " 名字: " + chrName + " 进入拍卖");
         } else if (channel > -1) {
-            System.out.println("玩家连接 - 角色ID: " + chrId + " 名字: " + chrName + " 频道: " + channel);
+            log.info("玩家连接 - 角色ID: " + chrId + " 名字: " + chrName + " 频道: " + channel);
         } else {
-            System.out.println("玩家连接 - 角色ID: " + chrId + " 未处理的频道...");
+            log.info("玩家连接 - 角色ID: " + chrId + " 未处理的频道...");
         }
     }
 
@@ -62,7 +62,7 @@ public class WorldFindService {
         } finally {
             lock.writeLock().unlock();
         }
-        System.out.println("玩家离开 - 角色ID: " + chrId);
+        log.info("玩家离开 - 角色ID: " + chrId);
     }
 
     public void forceDeregister(String chrName) {
@@ -72,7 +72,7 @@ public class WorldFindService {
         } finally {
             lock.writeLock().unlock();
         }
-        System.out.println("玩家离开 - 角色名字: " + chrName);
+        log.info("玩家离开 - 角色名字: " + chrName);
     }
 
     public void forceDeregister(int chrId, String chrName) {
@@ -83,7 +83,7 @@ public class WorldFindService {
         } finally {
             lock.writeLock().unlock();
         }
-        System.out.println("玩家离开 - 角色ID: " + chrId + " 名字: " + chrName);
+        log.info("玩家离开 - 角色ID: " + chrId + " 名字: " + chrName);
     }
 
     public void forceDeregisterEx(int chrId, String chrName) {
@@ -94,7 +94,7 @@ public class WorldFindService {
         } finally {
             lock.writeLock().unlock();
         }
-        System.out.println("清理卡号玩家 - 角色ID: " + chrId + " 名字: " + chrName);
+        log.info("清理卡号玩家 - 角色ID: " + chrId + " 名字: " + chrName);
     }
 
     /*

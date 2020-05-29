@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import provider.MapleOverrideData;
 import redis.clients.jedis.Jedis;
 import server.cashshop.CashItemFactory;
+import server.console.ProgressBarObservable;
 import server.console.Start;
 import server.life.MapleLifeFactory;
 import server.life.MapleMonsterInformationProvider;
@@ -177,7 +178,7 @@ public class InitializeServer {
 //        p.put("com.mchange.v2.log.FallbackMLog.DEFAULT_CUTOFF_LEVEL", "OFF"); // or any other
 //        System.setProperties(p);
 //    }
-    public static boolean initializeRedis(boolean reload, Start.ProgressBarObservable observable) {
+    public static boolean initializeRedis(boolean reload, ProgressBarObservable observable) {
         Jedis jedis = RedisUtil.getJedis();
         if (RedisUtil.KEYNAMES.DELETECACHE || reload) {
             jedis.flushAll();
@@ -204,9 +205,9 @@ public class InitializeServer {
             int currPro = observable.getProgress();
             int singlePro = (100 - currPro) / (indexs.size() + 1);
 
-            // 加载技能冷却时间
+//            // 加载技能冷却时间
 //            observable.setProgress(new Pair<>(indexs.get(++index), currPro + singlePro * (index + 1)));
-//            SkillFactory.loadSkillData();
+//            SkillFactory.loadDelays();
 
             // 加载技能数据
             observable.setProgress(new Pair<>(indexs.get(++index), currPro + singlePro * (index + 1)));

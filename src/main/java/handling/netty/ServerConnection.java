@@ -8,8 +8,12 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import server.console.Start;
 
 public class ServerConnection {
+    private static final Logger log = LogManager.getLogger(Start.class.getName());
 
     private final int port;
     private final EventLoopGroup bossGroup = new NioEventLoopGroup(1); //The initial connection thread where all the new connections go to
@@ -36,7 +40,7 @@ public class ServerConnection {
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childHandler(new ServerInitializer(world, channels, type));
             channel = boot.bind(port).sync().channel().closeFuture().channel();
-            System.out.printf("正在启动 - %s 端口: %s\r\n", type.name(), port);
+            log.info("正在启动 - {} 端口: {}", type.name(), port);
         } catch (Exception e) {
             throw new RuntimeException("启动失败 - " + type.name() + ":" + channel.remoteAddress());
         }

@@ -17,6 +17,7 @@ public class MapleDataProvider {
     public MapleDataProvider(File fileIn) {
         root = fileIn;
         rootForNavigation = new MapleDataDirectoryEntry(fileIn.getName(), 0, 0, null);
+        log.info("loading " + fileIn.getPath() );
         fillMapleDataEntitys(root, rootForNavigation);
     }
 

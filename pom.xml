@@ -229,7 +229,9 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>/lib/</classpathPrefix>
-                            <mainClass>server.console.Start</mainClass>
+<!--                            <mainClass>server.console.Start</mainClass>-->
+                            <mainClass>server.console.StartInConsole</mainClass>
+
                         </manifest>
                     </archive>
                 </configuration>

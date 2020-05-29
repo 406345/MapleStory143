@@ -1,7 +1,6 @@
 package server.console.groups.datamanage
 
 import org.junit.Test
-import server.MapleItemInformationProvider
 
 class CashShopPaneTest {
 
@@ -15,6 +14,5 @@ class CashShopPaneTest {
 //                println("$it 进入死循环了")
 //            }
 //        }
-        println(MapleItemInformationProvider.getInstance().getInLinkID(1702109))
     }
 }

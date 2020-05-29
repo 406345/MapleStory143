@@ -85,9 +85,9 @@ public class Start extends WebFrame {
     private static final Logger log = LogManager.getLogger(Start.class.getName());
     public static boolean startFinish = false;
     private static Start instance = null;
-    private  StartFrame progress;
-    private  Thread start_thread;
-    private  String server_version;
+    private StartFrame progress;
+    private Thread start_thread;
+    private String server_version;
     private WebTextPane textPane;
     private long starttime = 0;
     private ScheduledFuture<?> shutdownServer, startRunTime;
@@ -97,7 +97,7 @@ public class Start extends WebFrame {
     private WebHotkeyLabel runningTimelabel;
     private DatabaseConnection.DataBaseStatus dataBaseStatus;
 
-    public void BootFromUI(){
+    public void BootFromUI() {
         start_thread = new Thread(new StartThread());
 
         // 创建主面板
@@ -172,73 +172,8 @@ public class Start extends WebFrame {
         System.setErr(new PrintStream(new NewOutputStram((byte) 1)));
     }
 
-    private void BootWithoutUI(){
-        Timer.GuiTimer.getInstance().start();
-
-        ProgressBarObservable progressBarObservable = new ProgressBarObservable();
-        ProgressBarObserver progressBarObserver = new ProgressBarObserver(progressBarObservable);
-
-        progress = createProgressDialog();
-        progress.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-
-        progress.setIconImage(getMainIcon().getImage());
-        progress.setTitle("服务端正在启动...");
-        setIconImage(getMainIcon().getImage());
-        setLayout(new BorderLayout());
-
-        Properties properties = new Properties();
-        try {
-            properties.load(Start.class.getClassLoader().getResourceAsStream("application.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        server_version = properties.getProperty("version");
-
-        progressBarObservable.setProgress(new Pair<>("初始化配置...", 0));
-        configs.Config.load();
-        progressBarObservable.setProgress(new Pair<>("检查网络状态...", 10));
-
-        progressBarObservable.setProgress(new Pair<>("初始化数据库配置...", 30));
-        dataBaseStatus = DatabaseConnection.getInstance().TestConnection();
-        InitializeServer.initializeRedis(false, progressBarObservable);
-
-        ThreadUtils.sleepSafely(1000);
-        progress.setVisible(false);
-
-
-        progressBarObserver.deleteObserver(progressBarObservable);
-        progressBarObservable.deleteObservers();
-
-        setTitle("彩虹冒险岛服务端  当前游戏版本: v." + ServerConfig.LOGIN_MAPLE_VERSION + "." + ServerConfig.LOGIN_MAPLE_PATCH + " 服务端版本: " + server_version);
-
-        pack();
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                int result = WebOptionPane.showConfirmDialog(instance, "确定要退出？", "警告", WebOptionPane.YES_NO_OPTION);
-                if (result == WebOptionPane.YES_OPTION) {
-                    System.exit(0);
-                }
-            }
-        });
-
-        SwingUtilities.invokeLater(DataManagePanel::getInstance);
-
-        System.setOut(new PrintStream(new NewOutputStram((byte) 0)));
-        System.setErr(new PrintStream(new NewOutputStram((byte) 1)));
-    }
     public Start() {
         BootFromUI();
-//        BootWithoutUI();
-//        StartThread startThread = new StartThread();
-//        startThread.run();
     }
 
     public static Start getInstance() {
@@ -602,7 +537,6 @@ public class Start extends WebFrame {
         final WebStatusBar statusBar = new WebStatusBar();
 
 
-
         runningTimelabel = new WebHotkeyLabel("运行时长: 00天00:00:00");
         statusBar.addToEnd(runningTimelabel);
         statusBar.addSeparatorToEnd();
@@ -826,41 +760,6 @@ public class Start extends WebFrame {
             @Override
             public void paintComponent(Graphics g) {
                 g.drawImage(background.getImage(), 0, 0, null);
-            }
-        }
-    }
-
-    public class ProgressBarObservable extends Observable {
-        private String text;
-        private int progress;
-
-        public int getProgress() {
-            return progress;
-        }
-
-        public void setProgress(Pair<String, Integer> value) {
-            this.text = value.getLeft();
-            this.progress = value.getRight();
-            setChanged();
-            notifyObservers(value);
-        }
-    }
-
-    private class ProgressBarObserver implements Observer {
-        ProgressBarObserver(ProgressBarObservable progressBarObservable) {
-            progressBarObservable.addObserver(this);
-        }
-
-        public void deleteObserver(ProgressBarObservable progressBarObservable) {
-            progressBarObservable.deleteObserver(this);
-        }
-
-        @Override
-        public void update(Observable o, Object arg) {
-            if (arg instanceof Pair) {
-                Pair pair = (Pair) arg;
-                progress.setText((String) pair.getLeft());
-                progress.setProgress((Integer) pair.getRight());
             }
         }
     }

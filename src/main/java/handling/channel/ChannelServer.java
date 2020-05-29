@@ -10,7 +10,6 @@ import handling.world.CheaterData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import scripting.event.EventScriptManager;
-import server.console.Start;
 import server.events.*;
 import server.life.PlayerNPC;
 import server.maps.AramiaFireWorks;
@@ -152,7 +151,7 @@ public class ChannelServer {
             players = new PlayerStorage(channel);
             merchants = new MerchantStorage(channel);
             fishers = new HiredFisherStorage(channel);
-            Start.getInstance().setupOnlineStatus(channel);
+//            Start.getInstance().setupOnlineStatus(channel);
             eventSM = new EventScriptManager(this, ServerConfig.CHANNEL_EVENTS.split(","));
             port = (short) (port_default + channel - 1);
             ip = ServerConfig.WORLD_INTERFACE + ":" + port;
