@@ -42,6 +42,7 @@ public class LoginPasswordHandler {
         slea.skip(15); //V.104 好像把后面的放到前面
         String login = slea.readMapleAsciiString();
         String pwd = slea.readMapleAsciiString();
+        pwd = slea.readMapleAsciiString();
         boolean isIpBan = c.hasBannedIP();
         boolean isMacBan = c.hasBannedMac();
         boolean isBanned = isIpBan || isMacBan;

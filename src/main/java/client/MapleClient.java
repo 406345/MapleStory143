@@ -40,6 +40,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ScheduledFuture;
@@ -842,10 +843,14 @@ public class MapleClient implements Serializable {
 
     public void updateLoginState(int newstate, String SessionID) {
         try (DruidPooledConnection con = DatabaseConnection.getInstance().getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("UPDATE accounts SET loggedin = ?, SessionIP = ?, lastlogin = CURRENT_TIMESTAMP() WHERE id = ?")) {
+            //CURRENT_TIMESTAMP()
+            try (PreparedStatement ps = con.prepareStatement("UPDATE accounts SET loggedin = ?, SessionIP = ?, lastlogin = ? WHERE id = ?")) {
                 ps.setInt(1, newstate);
                 ps.setString(2, SessionID);
-                ps.setInt(3, getAccID());
+                Date day=new Date();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                ps.setString(3, df.format(day));
+                ps.setInt(4, getAccID());
                 ps.executeUpdate();
             }
         } catch (SQLException e) {

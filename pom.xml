@@ -11,7 +11,7 @@
     <properties>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>1.1.0</kotlin.version>
+        <kotlin.version>1.3.72</kotlin.version>
         <java.version>1.8</java.version>
     </properties>
 
@@ -92,11 +92,44 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.40</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.weblookandfeel</groupId>-->
+<!--            <artifactId>weblaf-ui</artifactId>-->
+<!--            <version>1.2.12</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.weblookandfeel/weblaf-core &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.weblookandfeel</groupId>-->
+<!--            <artifactId>weblaf-core</artifactId>-->
+<!--            <version>1.2.12</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.weblookandfeel/weblaf-parent &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.weblookandfeel</groupId>-->
+<!--            <artifactId>weblaf-parent</artifactId>-->
+<!--            <version>1.2.12</version>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.weblookandfeel/weblaf-plugin &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.weblookandfeel</groupId>-->
+<!--            <artifactId>weblaf-plugin</artifactId>-->
+<!--            <version>1.2.12</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/de.sciss/weblaf &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>de.sciss</groupId>-->
+<!--            <artifactId>weblaf</artifactId>-->
+<!--            <version>2.2.1</version>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>chms</groupId>
             <artifactId>weblaf-complete</artifactId>
             <version>1.29</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/weblaf-complete-1.29.jar</systemPath>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/junit/junit -->
@@ -145,8 +178,14 @@
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -154,14 +193,19 @@
 
     <build>
         <finalName>Server</finalName>
-        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
 
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
+<!--            <resource>-->
+<!--                <directory>lib</directory>-->
+<!--                <targetPath>lib/</targetPath>-->
+<!--                <includes>-->
+<!--                    <include>**/*.jar</include>-->
+<!--                </includes>-->
+<!--            </resource>-->
         </resources>
 
         <plugins>
@@ -181,10 +225,10 @@
                 <version>3.0.2</version>
                 <configuration>
                     <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <addMavenDescriptor>true</addMavenDescriptor>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
+                            <classpathPrefix>/lib/</classpathPrefix>
                             <mainClass>server.console.Start</mainClass>
                         </manifest>
                     </archive>
@@ -214,7 +258,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.0</version>
                 <configuration>
                     <encoding>utf-8</encoding>
                 </configuration>
@@ -230,11 +274,6 @@
                         <goals>
                             <goal>compile</goal>
                         </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <source>src/main/java</source>
-                            </sourceDirs>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>test-compile</id>
@@ -244,6 +283,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <jvmTarget>1.8</jvmTarget>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

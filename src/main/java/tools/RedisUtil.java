@@ -42,37 +42,37 @@ public final class RedisUtil {
      */
     static {
 
-        try {
-            boolean isInstall = true;
-            boolean isRunning = false;
-            Process process = Runtime.getRuntime().exec("SC QUERY redserver");
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-//                StringBuilder stringBuilder = new StringBuilder();
-                String s;
-                while ((s = bufferedReader.readLine()) != null) {
-                    if (s.contains("1060")) {
-                        isInstall = false;
-                        break;
-                    } else if (s.contains("STATE")) {
-                        isRunning = s.contains("RUNNING");
-                        break;
-                    }
-//                    stringBuilder.append(s).append("\r\n");
-                }
-            }
-            if (!isInstall) {
-                Process process1 = Runtime.getRuntime().exec("cmd /c redis-server.exe --service-install redis.windows-service.conf --loglevel verbose --service-name redserver", null, new File("config\\jdk\\jre\\lib\\redis\\"));
-                process1.waitFor();
-            }
-
-            if (!isRunning) {
-                Process process1 = Runtime.getRuntime().exec("cmd /c redis-server.exe --service-start --service-name redserver", null, new File("config\\jdk\\jre\\lib\\redis\\"));
-                process1.waitFor();
-            }
-
-        } catch (IOException | InterruptedException e) {
-            log.error("Cache初始化失败", e);
-        }
+//        try {
+//            boolean isInstall = true;
+//            boolean isRunning = false;
+//            Process process = Runtime.getRuntime().exec("SC QUERY redserver");
+//            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+////                StringBuilder stringBuilder = new StringBuilder();
+//                String s;
+//                while ((s = bufferedReader.readLine()) != null) {
+//                    if (s.contains("1060")) {
+//                        isInstall = false;
+//                        break;
+//                    } else if (s.contains("STATE")) {
+//                        isRunning = s.contains("RUNNING");
+//                        break;
+//                    }
+////                    stringBuilder.append(s).append("\r\n");
+//                }
+//            }
+//            if (!isInstall) {
+//                Process process1 = Runtime.getRuntime().exec("cmd /c redis-server.exe --service-install redis.windows-service.conf --loglevel verbose --service-name redserver", null, new File("config\\jdk\\jre\\lib\\redis\\"));
+//                process1.waitFor();
+//            }
+//
+//            if (!isRunning) {
+//                Process process1 = Runtime.getRuntime().exec("cmd /c redis-server.exe --service-start --service-name redserver", null, new File("config\\jdk\\jre\\lib\\redis\\"));
+//                process1.waitFor();
+//            }
+//
+//        } catch (IOException | InterruptedException e) {
+//            log.error("Cache初始化失败", e);
+//        }
 
         try {
             JedisPoolConfig config = new JedisPoolConfig();

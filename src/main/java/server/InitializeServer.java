@@ -205,8 +205,9 @@ public class InitializeServer {
             int singlePro = (100 - currPro) / (indexs.size() + 1);
 
             // 加载技能冷却时间
-            observable.setProgress(new Pair<>(indexs.get(++index), currPro + singlePro * (index + 1)));
-            SkillFactory.loadDelays();
+//            observable.setProgress(new Pair<>(indexs.get(++index), currPro + singlePro * (index + 1)));
+//            SkillFactory.loadSkillData();
+
             // 加载技能数据
             observable.setProgress(new Pair<>(indexs.get(++index), currPro + singlePro * (index + 1)));
             MapleOverrideData.getInstance().init();
